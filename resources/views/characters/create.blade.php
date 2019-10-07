@@ -26,14 +26,6 @@
                     <label for="name">Character Name:</label>
                     <input type="text" class="form-control" name="character_name"/>
                 </div>
-                <div class="form-group">
-                    <label for="level">Character Level :</label>
-                    <input type="text" class="form-control" name="character_level"/>
-                </div>
-                <div class="form-group">
-                    <label for="stars">Stars:</label>
-                    <input type="text" class="form-control" name="character_stars"/>
-                </div>
                 <button type="submit" class="btn btn-primary">Add</button>
             </form>
         </div>
