@@ -7,14 +7,29 @@ use App\Character;
 
 class CharacterController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $request->user()->authorizeRoles(['admin', 'dm', 'player']);
+
+//        $request->user()->roles()->find(3);
         $characters = Character::all();
+        if($request->user()->roles()->find(3))
+        {
+            $characters = Character::where('user_id', $request->user()->id)->get();
+        }
+//        $characters = Character::where;
+
+
 
         return view('characters.index', compact('characters'));
     }
@@ -22,10 +37,12 @@ class CharacterController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $request->user()->authorizeRoles(['admin', 'dm', 'player']);
         return view('characters.create');
     }
 
@@ -37,8 +54,9 @@ class CharacterController extends Controller
      */
     public function store(Request $request)
     {
+        $request->user()->authorizeRoles(['admin', 'dm', 'player']);
         $request->validate([
-            'character_name'=>'required',
+            'character_name'=>'required|regex:/^[a-zA-Z ]+$/',
         ]);
         $character = new Character([
             'name' => $request->get('character_name'),
@@ -62,10 +80,12 @@ class CharacterController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
+        $request->user()->authorizeRoles(['admin', 'dm', 'player']);
         $character = Character::find($id);
 
         return view('characters.edit', compact('character'));
@@ -80,6 +100,7 @@ class CharacterController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->user()->authorizeRoles(['admin', 'dm', 'player']);
         $request->validate([
             'character_name'=>'required',
             'level'=> 'required|integer',
@@ -93,17 +114,19 @@ class CharacterController extends Controller
         $character->notes = $request->get('notes');
         $character->save();
 
-        return redirect('/characters')->with('success', 'Stock has been updated');
+        return redirect('/characters')->with('success', 'Character has been updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
+        $request->user()->authorizeRoles(['admin', 'dm', 'player']);
         $character = Character::find($id);
         $character->delete();
 
