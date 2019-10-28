@@ -13,13 +13,17 @@
             </div><br />
         @endif
         <a href="{{ route('characters.create')}}" class="btn btn-primary">New</a>
+        <form action="{{route("character.search")}}" method="post">
+            @csrf
+            <input type="text" name="query" placeholder="search"><input type="submit">
+        </form>
         <table class="table table-striped">
             <thead>
             <tr>
-                <td>Favorite</td>
-                <td>Name</td>
-                <td>level</td>
-                <td>stars</td>
+                <td>Favorite <a href="{{ route('characters.index', ["sort"=>"favorite"])}}">^</a> </td>
+                <td>Name <a href="{{ route('characters.index', ["sort"=>"name"])}}">^</a> </td>
+                <td>level <a href="{{ route('characters.index', ["sort"=>"level"])}}">^</a> </td>
+                <td>stars <a href="{{ route('characters.index', ["sort"=>"stars"])}}">^</a> </td>
                 <td colspan="2">Action</td>
             </tr>
             </thead>
@@ -43,4 +47,8 @@
             </tbody>
         </table>
         <div>
+
+    @if(isset($characters))
+        {{$characters}}
+    @endif
 @endsection

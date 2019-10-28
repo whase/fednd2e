@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Character;
+use Illuminate\Support\Facades\Redirect;
 
 class CharacterController extends Controller
 {
@@ -20,18 +21,19 @@ class CharacterController extends Controller
     public function index(Request $request)
     {
         $request->user()->authorizeRoles(['admin', 'dm', 'player']);
+        $sort = request()->get('sort');
+        if(!$sort){
+            $sort = "favorite";
+        }
+        $characters = Character::all()->sortBy($sort);
 
-//        $request->user()->roles()->find(3);
-        $characters = Character::all();
         if($request->user()->roles()->find(3))
         {
-            $characters = Character::where('user_id', $request->user()->id)->get();
+            $characters = Character::where('user_id', $request->user()->id)->sortBy($sort)->get();
         }
-//        $characters = Character::where;
 
 
-
-        return view('characters.index', compact('characters'));
+        return view('characters.index', compact('characters'), compact('sort'));
     }
 
     /**
@@ -68,10 +70,10 @@ class CharacterController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Character $character
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Character $character)
     {
         //
     }
@@ -79,14 +81,13 @@ class CharacterController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Character $character
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, Request $request)
+    public function edit(Character $character, Request $request)
     {
         $request->user()->authorizeRoles(['admin', 'dm', 'player']);
-        $character = Character::find($id);
 
         return view('characters.edit', compact('character'));
     }
@@ -95,10 +96,10 @@ class CharacterController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Character $character
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Character $character)
     {
         $request->user()->authorizeRoles(['admin', 'dm', 'player']);
         $request->validate([
@@ -107,7 +108,6 @@ class CharacterController extends Controller
             'stars' => 'required|integer',
         ]);
 
-        $character = Character::find($id);
         $character->name = $request->get('character_name');
         $character->level = $request->get('level');
         $character->stars = $request->get('stars');
@@ -131,5 +131,19 @@ class CharacterController extends Controller
         $character->delete();
 
         return redirect('/characters')->with('success', 'Character has been deleted Successfully');
+    }
+
+
+    public function search()
+    {
+        $query = request()->get('query');
+        if(empty($query)){
+            return redirect('/characters');
+        }
+
+        $characters = request()->user()->characters()->where('name', 'like', '%'.$query.'%')->orWhere('notes', 'like', '%'.$query.'%')->get();
+
+//        return redirect(route('characters.index'))->with('data', $filteredCharacters);
+        return view('characters.index', compact('characters'));
     }
 }

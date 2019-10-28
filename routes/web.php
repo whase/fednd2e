@@ -20,3 +20,5 @@ Route::resource('characters', 'CharacterController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::post('characters/search', "CharacterController@search")->name('character.search');
