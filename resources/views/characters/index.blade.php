@@ -31,9 +31,10 @@
             @foreach($characters as $character)
                 <tr>
                     <td>
-                        <form method="post" action="{{ route('character.fav', $character) }}">
-                            @method('PATCH')
+                        <form method="post" action="{{ route('character.fav', $character->id) }}">
+{{--                            @method('PATCH')--}}
                             @csrf
+                            <input type="hidden" name="character" value="{{$character}}">
                             @if($character->favorite)
                                 <input type="image" src="{{ asset('img/star.png') }}" alt="Submit" width="18" height="18">
                             @else

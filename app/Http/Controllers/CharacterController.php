@@ -29,7 +29,7 @@ class CharacterController extends Controller
 
         if($request->user()->roles()->find(3))
         {
-            $characters = Character::where('user_id', $request->user()->id)->sortBy($sort)->get();
+            $characters = Character::where('user_id', $request->user()->id)->orderBy($sort)->get();
         }
 
 
@@ -63,6 +63,7 @@ class CharacterController extends Controller
         $character = new Character([
             'name' => $request->get('character_name'),
         ]);
+        $character->user_id = $request->user()->id;
         $character->save();
         return redirect('/characters')->with('success', 'Character has been added');
     }
@@ -151,14 +152,17 @@ class CharacterController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  Character $character
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function switchFav(Request $request, Character $character){
-
+    public function switchFav($id, Request $request){
+//        $character = $request->character;
 //        $character->favorite = !$request->get('favorite');
 //        $character->save();
+        $character = Character::find($id);
+        $character->favorite = !$request->get('favorite');
+        $character->save();
 
-        return redirect('/characters')->with('success', 'Character has been updated');;
+        return redirect()->route('characters.index');
     }
 }
