@@ -152,15 +152,16 @@ class CharacterController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function switchFav($id, Request $request){
+    public function switchFav(Request $request, $id){
 //        $character = $request->character;
 //        $character->favorite = !$request->get('favorite');
 //        $character->save();
+        $decodedCharacter = json_decode($request->character);
         $character = Character::find($id);
-        $character->favorite = !$request->get('favorite');
+        $character->favorite = !$decodedCharacter->favorite;
         $character->save();
 
         return redirect()->route('characters.index');
