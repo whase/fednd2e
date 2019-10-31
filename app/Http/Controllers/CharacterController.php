@@ -146,4 +146,19 @@ class CharacterController extends Controller
 //        return redirect(route('characters.index'))->with('data', $filteredCharacters);
         return view('characters.index', compact('characters'));
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  Character $character
+     * @return \Illuminate\Http\Response
+     */
+    public function switchFav(Request $request, Character $character){
+
+//        $character->favorite = !$request->get('favorite');
+//        $character->save();
+
+        return redirect('/characters')->with('success', 'Character has been updated');;
+    }
 }

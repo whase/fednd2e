@@ -22,3 +22,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('characters/search', "CharacterController@search")->name('character.search');
+Route::post('characters/fav', "CharacterController@switchFav")->name('character.fav');

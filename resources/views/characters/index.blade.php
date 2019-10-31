@@ -30,7 +30,17 @@
             <tbody>
             @foreach($characters as $character)
                 <tr>
-                    <td>{{$character->favorite}}</td>
+                    <td>
+                        <form method="post" action="{{ route('character.fav', $character) }}">
+                            @method('PATCH')
+                            @csrf
+                            @if($character->favorite)
+                                <input type="image" src="{{ asset('img/star.png') }}" alt="Submit" width="18" height="18">
+                            @else
+                                <input type="image" src="{{ asset('img/star_empty.png') }}" alt="Submit" width="18" height="18">
+                            @endif
+                        </form>
+                    </td>
                     <td>{{$character->name}}</td>
                     <td>{{$character->level}}</td>
                     <td>{{$character->stars}}</td>
