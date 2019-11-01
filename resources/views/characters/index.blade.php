@@ -42,7 +42,7 @@
                             @endif
                         </form>
                     </td>
-                    <td>{{$character->name}}</td>
+                    <td><a href="{{ route('characters.show', $character->id)}}" >{{$character->name}}</a></td>
                     <td>{{$character->level}}</td>
                     <td>{{$character->stars}}</td>
                     <td><a href="{{ route('characters.edit',$character->id)}}" class="btn btn-primary">Edit</a></td>

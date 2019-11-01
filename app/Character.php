@@ -15,4 +15,9 @@ class Character extends Model
         'notes' => "",
         'favorite' => false,
     ];
+    public function stats()
+    {
+        return $this->belongsToMany(Stat::class, 'character_stat');
+    }
+
 }

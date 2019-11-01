@@ -76,7 +76,7 @@ class CharacterController extends Controller
      */
     public function show(Character $character)
     {
-        //
+        dd($character->stats());
     }
 
     /**
