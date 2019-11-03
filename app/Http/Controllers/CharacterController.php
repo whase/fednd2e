@@ -12,7 +12,7 @@ class CharacterController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('checkExp')->only('levelUp');
+//        $this->middleware('checkExp')->only('levelUp');
     }
     /**
      * Display a listing of the resource.
