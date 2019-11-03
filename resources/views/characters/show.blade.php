@@ -22,6 +22,23 @@
                         stars: {{ $character->stars }}
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        experience: {{ $character->experience }}
+                        <form method="post" action="{{ route('character.getExp', $character->id)}}">
+                            @csrf
+                            <input type="hidden" name="character" value="{{$character}}">
+                            <button class="btn" type="submit">+10 exp</button>
+                        </form>
+                        @if($character->experience >= 100)
+                        <form method="post" action="{{ route('character.levelUp', $character->id)}}">
+                            @csrf
+                            <input type="hidden" name="character" value="{{$character}}">
+                            <button class="btn" type="submit">level up!</button>
+                        </form>
+                        @endif
+                    </td>
+                </tr>
             </table>
 
             <table>

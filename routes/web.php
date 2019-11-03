@@ -22,4 +22,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('characters/search', "CharacterController@search")->name('character.search');
-Route::post('characters/{character}', "CharacterController@switchFav")->name('character.fav');
+Route::post('characters/fav/{character}', "CharacterController@switchFav")->name('character.fav');
+Route::post('character/exp/{character}', "CharacterController@getExp")->name('character.getExp');
+Route::post('character/lvlUp/{character}', "CharacterController@levelUp")->name('character.levelUp');

@@ -32,7 +32,6 @@
                 <tr>
                     <td>
                         <form method="post" action="{{ route('character.fav', $character->id) }}">
-{{--                            @method('PATCH')--}}
                             @csrf
                             <input type="hidden" name="character" value="{{$character}}">
                             @if($character->favorite)

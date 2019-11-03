@@ -12,6 +12,7 @@ class CharacterController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('checkExp')->only('levelUp');
     }
     /**
      * Display a listing of the resource.
@@ -179,5 +180,31 @@ class CharacterController extends Controller
         $character->save();
 
         return redirect()->route('characters.index');
+    }
+
+    public function getExp(Request $request, $id){
+
+        $decodedCharacter = json_decode($request->character);
+        $character = Character::find($id);
+        $character->experience = $character->experience + 10;
+        $character->save();
+
+        return redirect()->route('characters.show', compact('character'));
+    }
+
+
+    public function levelUp(Request $request, $id){
+
+        $decodedCharacter = json_decode($request->character);
+        $character = Character::find($id);
+        if ($character->experience >= 100){
+
+            $character->experience = $character->experience - 100;
+            $character->level = $character->level + 1;
+        }
+
+        $character->save();
+
+        return redirect()->route('characters.show', compact('character'));
     }
 }
