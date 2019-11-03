@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CharacterStat;
 use Illuminate\Http\Request;
 use App\Character;
 use Illuminate\Support\Facades\Redirect;
@@ -72,11 +73,24 @@ class CharacterController extends Controller
      * Display the specified resource.
      *
      * @param  Character $character
+     * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Character $character)
+    public function show(Request $request, Character $character)
     {
-        dd($character->stats());
+        $request->user()->authorizeRoles(['admin', 'dm', 'player']);
+
+        if($request->user()->roles()->find(3))
+        {
+            if($character->user_id != $request->user()->id){
+                return redirect('/characters')->with('success', 'You have no power here.');
+            }
+        }
+
+
+//        dd(CharacterStat::all());
+//        dd($character->stats());
+        return view('characters.show', compact('character'));
     }
 
     /**

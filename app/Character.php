@@ -17,7 +17,7 @@ class Character extends Model
     ];
     public function stats()
     {
-        return $this->belongsToMany(Stat::class, 'character_stat');
+        return $this->belongsToMany(Stat::class, 'character_stat')->withPivot('value', 'status');
     }
 
 }
