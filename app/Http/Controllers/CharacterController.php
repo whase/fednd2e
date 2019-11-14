@@ -88,9 +88,6 @@ class CharacterController extends Controller
             }
         }
 
-
-//        dd(CharacterStat::all());
-//        dd($character->stats());
         return view('characters.show', compact('character'));
     }
 
@@ -159,7 +156,6 @@ class CharacterController extends Controller
 
         $characters = request()->user()->characters()->where('name', 'like', '%'.$query.'%')->orWhere('notes', 'like', '%'.$query.'%')->get();
 
-//        return redirect(route('characters.index'))->with('data', $filteredCharacters);
         return view('characters.index', compact('characters'));
     }
 
@@ -171,9 +167,6 @@ class CharacterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function switchFav(Request $request, $id){
-//        $character = $request->character;
-//        $character->favorite = !$request->get('favorite');
-//        $character->save();
         $decodedCharacter = json_decode($request->character);
         $character = Character::find($id);
         $character->favorite = !$decodedCharacter->favorite;
@@ -184,7 +177,6 @@ class CharacterController extends Controller
 
     public function getExp(Request $request, $id){
 
-        $decodedCharacter = json_decode($request->character);
         $character = Character::find($id);
         $character->experience = $character->experience + 10;
         $character->save();
@@ -195,7 +187,6 @@ class CharacterController extends Controller
 
     public function levelUp(Request $request, $id){
 
-        $decodedCharacter = json_decode($request->character);
         $character = Character::find($id);
         if ($character->experience >= 100){
 

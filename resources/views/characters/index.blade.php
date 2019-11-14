@@ -24,6 +24,7 @@
                 <td>Name <a href="{{ route('characters.index', ["sort"=>"name"])}}">^</a> </td>
                 <td>level <a href="{{ route('characters.index', ["sort"=>"level"])}}">^</a> </td>
                 <td>stars <a href="{{ route('characters.index', ["sort"=>"stars"])}}">^</a> </td>
+                <td>campaign</td>
                 <td colspan="2">Action</td>
             </tr>
             </thead>
@@ -44,6 +45,7 @@
                     <td><a href="{{ route('characters.show', $character->id)}}" >{{$character->name}}</a></td>
                     <td>{{$character->level}}</td>
                     <td>{{$character->stars}}</td>
+                    <td>{{$character->campaign['name'] }}</td>
                     <td><a href="{{ route('characters.edit',$character->id)}}" class="btn btn-primary">Edit</a></td>
                     <td>
                         <form action="{{ route('characters.destroy', $character->id)}}" method="post">
@@ -58,7 +60,7 @@
         </table>
         <div>
 
-    @if(isset($characters))
-        {{$characters}}
-    @endif
+{{--    @if(isset($characters))--}}
+{{--        {{$characters}}--}}
+{{--    @endif--}}
 @endsection

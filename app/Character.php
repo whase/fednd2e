@@ -20,4 +20,9 @@ class Character extends Model
         return $this->belongsToMany(Stat::class, 'character_stat')->withPivot('value', 'status');
     }
 
+    public function campaign(){
+        return $this->belongsTo(Campaigns::class, 'campaign_id');
+
+    }
+
 }
